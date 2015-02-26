@@ -8,6 +8,11 @@ import java.util.Scanner;
 
 public class Test {
 	
+	static final int INORDER = 1,
+			RANDOM = 2,
+			LEAST = 3,
+			WORST = 4;
+			
 	public ArrayList<Question> qs;
 	public Map<String, ArrayList<Question>> map;
 	public Scanner in;
@@ -15,24 +20,33 @@ public class Test {
 	int asked, correct;
 	long start, end;
 	
-	public Test(ArrayList<Question> qs, Map<String, ArrayList<Question>> map, Scanner in){
+	Random rand;
+	
+	public Test(ArrayList<Question> qs, Map<String, ArrayList<Question>> map, Scanner in, int testType){
 		this.qs = qs;
 		this.map = map;
 		asked = 0;
 		correct = 0;
+		rand = new Random(System.nanoTime());
+		
+		if(testType == RANDOM)
+			Collections.shuffle(qs, rand);
+		else if(testType == LEAST)
+			Collections.sort(qs, Question.LeastComparator);
+		else if(testType == WORST)
+			Collections.sort(qs, Question.Worst);
 		
 		start = System.currentTimeMillis();
 		for(int i = 0; i < qs.size(); i++)
 		{
-			System.out.println("\nQuestion " + (i + 1) + ")");
+			System.out.print("\n" + (i + 1) + ") ");
 			System.out.println(qs.get(i).question);
 			
 			if(qs.get(i).type.equalsIgnoreCase("MC"))
 			{
 				ArrayList<String> answers = getAnswers(qs.get(i));
 				
-				long seed = System.nanoTime();
-				Collections.shuffle(answers, new Random(seed));
+				Collections.shuffle(answers, rand);
 				
 				for(int j = 0; j < 4; j++)
 				{
@@ -41,8 +55,14 @@ public class Test {
 				}
 				
 				String st = in.nextLine();
+				
+				if(st.equals("QUIT"))
+					break;
+				
 				asked++;
-				if(qs.get(i).checkandupdate(answers.get(st.charAt(0)-'A')))
+				
+				if((4 >= st.charAt(0)-'A' && st.charAt(0)-'A' >= 0) 
+					&& (qs.get(i).checkandupdate(answers.get(st.charAt(0)-'A'))))
 				{
 					System.out.println("Correct!");
 					correct++;
@@ -56,7 +76,12 @@ public class Test {
 			else
 			{
 				String st = in.nextLine();
+				
+				if(st.equals("QUIT"))
+					break;
+				
 				asked++;
+				
 				if(qs.get(i).checkandupdate(st))
 				{
 					System.out.println("Correct!");
