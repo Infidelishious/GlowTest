@@ -42,7 +42,7 @@ public class GlowTest extends JFrame{
 		map = new HashMap<String,ArrayList<Question>>();
 		in = new Scanner(System.in);
 		
-		System.out.println("GLOW TEST\n-------\n");
+		System.out.println("GLOW TEST\n-------");
 		
 		openPrefs();
 		int lt = 0;
@@ -62,9 +62,10 @@ public class GlowTest extends JFrame{
 		System.out.println("Test: " + testTitle +"\n");
 		int tt = 5;
 				
-		while(tt != 5)
+		while(tt == 5)
 		{
-			tt = getInt("1) In Order Test\n2) Random Test\n3) Least Asked First\n4) Worst First\n5)Reset Asked/Correct Count\n", 1, 5, true);
+			//System.out.println("Woot");
+			tt = getInt("1) In Order Test\n2) Random Test\n3) Least Asked First\n4) Worst First\n5) Reset Asked/Correct Count\n", 1, 5, true);
 			if(tt == 5)
 			{
 				for(Question i : qs)
@@ -75,7 +76,7 @@ public class GlowTest extends JFrame{
 			}
 		}
 		
-		Test test = new Test(qs, map, in, tt);
+		Test test = new Test(this, qs, map, in, tt);
 		
 		save();
 		savePrefs();
@@ -195,7 +196,7 @@ public class GlowTest extends JFrame{
 	  return new String(encoded, encoding);
 	}
 	
-	private int getInt(String prompt, int min, int max, boolean endline)
+	int getInt(String prompt, int min, int max, boolean endline)
 	{
 		System.out.print(prompt);
 		int temp;

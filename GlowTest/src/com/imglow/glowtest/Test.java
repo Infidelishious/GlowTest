@@ -16,15 +16,17 @@ public class Test {
 	public ArrayList<Question> qs;
 	public Map<String, ArrayList<Question>> map;
 	public Scanner in;
+	public GlowTest main;
 	
 	int asked, correct;
 	long start, end;
 	
 	Random rand;
 	
-	public Test(ArrayList<Question> qs, Map<String, ArrayList<Question>> map, Scanner in, int testType){
+	public Test(GlowTest main, ArrayList<Question> qs, Map<String, ArrayList<Question>> map, Scanner in, int testType){
 		this.qs = qs;
 		this.map = map;
+		this.main = main;
 		asked = 0;
 		correct = 0;
 		rand = new Random(System.nanoTime());
@@ -73,7 +75,7 @@ public class Test {
 					System.out.println("Answer: " + qs.get(i).answer);
 				}
 			}
-			else
+			else if(qs.get(i).type.equalsIgnoreCase("SP"))
 			{
 				String st = in.nextLine();
 				
@@ -91,6 +93,34 @@ public class Test {
 				{
 					System.out.println("Wrong!");
 					System.out.println("Answer: " + qs.get(i).answer);
+				}
+			}
+			else
+			{
+				System.out.println("(press enter to see other side)");
+				
+				String st = in.nextLine();
+				
+				if(st.equals("QUIT"))
+					break;
+				
+				asked++;
+				
+				System.out.println("Answer: " + qs.get(i).answer);
+				
+				
+				int tt = main.getInt("\nWere you correct?\n1) Yes\n2) No", 1, 2, true);
+				
+				if(tt == 1)
+				{
+					System.out.println("Correct!");
+					qs.get(i).checkandupdate(st);
+					correct++;
+				}
+				else
+				{
+					System.out.println("Wrong!");
+					qs.get(i).checkandupdate("");
 				}
 			}
 		}
