@@ -15,7 +15,7 @@ public class Test {
 	
 	static final int TEXT_WIDTH = 100;
 			
-	public ArrayList<Question> qs;
+	public ArrayList<Question> qs, wrong;
 	public Map<String, ArrayList<Question>> map;
 	public Scanner in;
 	public GlowTest main;
@@ -29,6 +29,9 @@ public class Test {
 		this.qs = qs;
 		this.map = map;
 		this.main = main;
+		
+		wrong = new ArrayList<Question>();
+		
 		asked = 0;
 		correct = 0;
 		rand = new Random(System.nanoTime());
@@ -75,6 +78,7 @@ public class Test {
 				{
 					System.out.println("Wrong!");
 					System.out.println("Answer: " + qs.get(i).answer);
+					wrong.add(qs.get(i));
 				}
 			}
 			else if(qs.get(i).type.equalsIgnoreCase("SP"))
@@ -95,6 +99,7 @@ public class Test {
 				{
 					System.out.println("Wrong!");
 					System.out.println("Answer: " + qs.get(i).answer);
+					wrong.add(qs.get(i));
 				}
 			}
 			else
@@ -123,6 +128,7 @@ public class Test {
 				{
 					System.out.println("Wrong!");
 					qs.get(i).checkandupdate("");
+					wrong.add(qs.get(i));
 				}
 			}
 		}

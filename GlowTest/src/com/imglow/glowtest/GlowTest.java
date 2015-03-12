@@ -78,7 +78,28 @@ public class GlowTest extends JFrame{
 			}
 		}
 		
-		Test test = new Test(this, qs, map, in, tt);
+		Test test;
+		while(true)
+		{
+			test = new Test(this, qs, map, in, tt);
+			
+			if(test.wrong.size() == 0)
+			{
+				System.out.println("Congratulations, you did perfect!");
+				break;
+			}
+			else
+			{
+				int tt2 = getInt("Do you want a quiz on the "+ test.wrong.size() + " you got wrong?\n1) Yes\n2) No", 1, 2, true);
+				if(tt2 == 2)
+					break;
+				else
+				{
+					qs = test.wrong;
+					makeMap();
+				}
+			}
+		}
 		
 		save();
 		savePrefs();
