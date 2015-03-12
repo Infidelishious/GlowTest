@@ -12,6 +12,8 @@ public class Test {
 			RANDOM = 2,
 			LEAST = 3,
 			WORST = 4;
+	
+	static final int TEXT_WIDTH = 100;
 			
 	public ArrayList<Question> qs;
 	public Map<String, ArrayList<Question>> map;
@@ -42,7 +44,7 @@ public class Test {
 		for(int i = 0; i < qs.size(); i++)
 		{
 			System.out.print("\n" + (i + 1) + ") ");
-			System.out.println(qs.get(i).question);
+			printWrapped(qs.get(i).question, TEXT_WIDTH);
 			
 			if(qs.get(i).type.equalsIgnoreCase("MC"))
 			{
@@ -114,7 +116,7 @@ public class Test {
 				if(tt == 1)
 				{
 					System.out.println("Correct!");
-					qs.get(i).checkandupdate(st);
+					qs.get(i).checkandupdate(qs.get(i).answer);
 					correct++;
 				}
 				else
@@ -127,8 +129,18 @@ public class Test {
 		
 		end = System.currentTimeMillis();
 		
-		System.out.println("\nScore: " + correct + "/" + asked + "(" + String.format("%,.2f", (correct/(float)asked)) + "%)");
+		System.out.println("\nScore: " + correct + "/" + asked + "(" + String.format("%,.1f", ((correct/(float)asked)) * 100) + "%)");
 		System.out.println("Time: " + String.format("%,.2f", ((end - start) / 1000f)) + "s");
+	}
+
+	private void printWrapped(String question, int i) {
+		if(question.length() > i)
+		{
+			System.out.println(question.substring(0,i));
+			printWrapped(question.substring(i), i);
+		}
+		else
+		System.out.println(question);
 	}
 
 	private ArrayList<String> getAnswers(Question question) {
@@ -137,7 +149,7 @@ public class Test {
 		
 		array.add(question.answer);
 		
-		for(int i = 0; i < 4; i++)
+		for(int i = 0; i < 3; i++)
 		{
 			array.add(tagArray.get((int)(Math.random() * tagArray.size())).answer);
 		}

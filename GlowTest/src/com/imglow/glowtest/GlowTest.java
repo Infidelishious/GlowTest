@@ -59,7 +59,8 @@ public class GlowTest extends JFrame{
 		
 		makeMap();
 		
-		System.out.println("Test: " + testTitle +"\n");
+		System.out.println("Test: " + testTitle);
+		System.out.println("Questions: " + qs.size() +"\n");
 		int tt = 5;
 				
 		while(tt == 5)
@@ -73,6 +74,7 @@ public class GlowTest extends JFrame{
 					i.reset();
 				}
 				save();
+				System.out.println("*Asked/Correct Count Reset*\n");
 			}
 		}
 		
